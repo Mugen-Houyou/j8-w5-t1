@@ -11,14 +11,12 @@ Purpose: Implementing the required functions for Question 6 */
 
 //////////////////////////////////////////////////////////////////////////////////
 
-typedef struct _listnode
-{
+typedef struct _listnode{
 	int item;
 	struct _listnode *next;
 } ListNode;			// You should not change the definition of ListNode
 
-typedef struct _linkedlist
-{
+typedef struct _linkedlist{
 	int size;
 	ListNode *head;
 } LinkedList;			// You should not change the definition of LinkedList
@@ -38,8 +36,7 @@ int removeNode(LinkedList *ll, int index);
 
 //////////////////////////// main() //////////////////////////////////////////////
 
-int main()
-{
+int main(){
 	int c, i, j;
 	c = 1;
 
@@ -85,10 +82,31 @@ int main()
 }
 
 ////////////////////////////////////////////////////////////////////////
+int moveMaxToFront(ListNode **ptrHead){
+    // 1. 리스트가 비어있거나 노드가 하나뿐인 경우, 이동할 필요가 없으므로 return 0
 
-int moveMaxToFront(ListNode **ptrHead)
-{
-    /* add your code here */
+    // 2. 최대값 노드를 가리키는 포인터 maxNode를 head로 초기화
+    //    이전 노드를 추적하기 위해 maxPrev는 NULL로 초기화
+
+    // 3. 순회용 포인터 cur를 head로, 이전 노드를 가리키는 포인터 prev를 NULL로 초기화
+
+    // 4. cur가 NULL이 아닐 때까지 순회하면서 다음을 수행:
+
+    //    4.1. cur->item이 현재 maxNode->item보다 큰 경우?
+    //         a. maxNode를 cur로 갱신
+    //         b. maxPrev를 prev로 갱신
+
+    //    4.2. prev를 cur로 이동
+    //         cur를 cur->next로 이동
+
+    // 5. 최대값이 이미 맨 앞이면 (maxPrev == NULL), 이동 없이 return 0
+
+    // 6. 그렇지 않다면?
+    //    6.1. maxPrev->next를 maxNode->next로 설정하여 maxNode를 리스트에서 분리
+    //    6.2. maxNode->next를 *ptrHead로 설정하여 maxNode를 리스트의 앞에 붙임
+    //    6.3. *ptrHead를 maxNode로 갱신
+
+    // 7. 성공했으니 return 1
 }
 
 //////////////////////////////////////////////////////////////////////////////////

@@ -91,10 +91,36 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-void levelOrderTraversal(BSTNode* root)
-{
-
+void levelOrderTraversal(BSTNode *root){
     /* add your code here */
+
+	if (root == NULL) // root라는 포인터 변수가 아무것도 가리키고 있지 않은가? (즉, 저장된 주소값이 NULL인가?)
+		return;
+
+	QueueNode *head = NULL;
+	QueueNode *tail = NULL;	
+
+	enqueue(&head, &tail, root);
+
+	while (!isEmpty(head)) {
+		BSTNode *node = dequeue(&head, &tail);
+		printf("%d ", node->item); 
+
+		if (node->left != NULL) {
+			enqueue(&head, &tail, node->left);
+		}
+		if (node->right != NULL) {
+			enqueue(&head, &tail, node->right);
+		}
+	}
+	
+	// 챗GPT 조언 - QueueNode 메모리 해제
+	QueueNode *tmp_to_free;
+	while (head != NULL) {
+		tmp_to_free = head;
+		head = head->nextPtr;
+		free(tmp_to_free);
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////

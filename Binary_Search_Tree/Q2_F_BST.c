@@ -31,9 +31,7 @@ typedef struct _stack
 
 // You should not change the prototypes of these functions
 void inOrderTraversal(BSTNode *node);
-
 void insertBSTNode(BSTNode **node, int value);
-
 void push(Stack *stack, BSTNode *node);
 BSTNode *pop(Stack *s);
 BSTNode *peek(Stack *s);
@@ -88,16 +86,23 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-void inOrderTraversal(BSTNode *root)
-{
-	 /* add your code here */
+void inOrderTraversal(BSTNode *root){
+    /* add your code here */
+	
+	if (root == NULL) // root라는 포인터 변수가 아무것도 가리키고 있지 않은가? (즉, 저장된 주소값이 NULL인가?)
+		return;
+	else
+	{
+		inOrderTraversal(root->left);
+		printf("%d ", root->item);
+		inOrderTraversal(root->right);
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 void insertBSTNode(BSTNode **node, int value){
-	if (*node == NULL)
-	{
+	if (*node == NULL){
 		*node = malloc(sizeof(BSTNode));
 
 		if (*node != NULL) {
@@ -105,15 +110,10 @@ void insertBSTNode(BSTNode **node, int value){
 			(*node)->left = NULL;
 			(*node)->right = NULL;
 		}
-	}
-	else
-	{
-		if (value < (*node)->item)
-		{
+	}else{
+		if (value < (*node)->item){
 			insertBSTNode(&((*node)->left), value);
-		}
-		else if (value >(*node)->item)
-		{
+		}else if (value > (*node)->item){
 			insertBSTNode(&((*node)->right), value);
 		}
 		else

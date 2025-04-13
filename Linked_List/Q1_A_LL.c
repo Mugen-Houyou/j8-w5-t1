@@ -88,9 +88,40 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-int insertSortedLL(LinkedList *ll, int item)
-{
-	/* add your code here */
+int insertSortedLL(LinkedList *ll, int item){	
+	// 0. 얼/리: 리스트 자체가 없으면 에러
+	if (ll == NULL)
+		return -1;
+
+	// 1. 사용자로부터 정수 입력 받기 (생략 - main()에서 이미 완료)
+
+	// 2. 빈 리스트인 경우, 바로 0번 위치에 삽입
+	if (ll->head == NULL) {
+		if (insertNode(ll, 0, item) == 0)
+			return 0;  // 삽입 성공 시 0 반환
+		else
+			return -1; // 삽입 실패 시 -1 반환
+	}
+
+    // 3. 리스트 전체 순회 & 중복 검사 및 삽입 위치 찾기
+    ListNode *temp = ll->head;
+    int index = 0;
+    
+    while (temp != NULL && temp->item < item) { // 새 item보다 작은 값인 동안만 진행
+        temp = temp->next;
+        index++;
+    }
+
+    // 4. 중복 발견 에러 처리
+    if (temp != NULL && temp->item == item)
+        return -1;
+
+    // 5. 이제 index 위치에 삽입
+    if (insertNode(ll, index, item) == 0)
+        return index;
+    else
+        return -1;
+	
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -128,7 +159,7 @@ void removeAllItems(LinkedList *ll)
 }
 
 
-ListNode *findNode(LinkedList *ll, int index){
+ListNode *findNode(LinkedList *ll, int index){ // ListNode 타입의 포인터를 반환하는 함수
 
 	ListNode *temp;
 

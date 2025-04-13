@@ -89,16 +89,94 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-void postOrderIterativeS2(BSTNode *root)
-{
-	 /* add your code here */
+void postOrderIterativeS2(BSTNode *root){
+	/* add your code here */
+
+	// 1. 스택 초기화 및 예외 처리
+	Stack *stack1 = malloc(sizeof(Stack));
+	Stack *stack2 = malloc(sizeof(Stack));
+
+	if (stack1 == NULL || stack2 == NULL) {
+		printf("메모리 오류 - 할당 실패!\n");
+		return;
+	}
+
+	stack1->top = NULL;
+	stack2->top = NULL;
+
+	if (root == NULL) {
+		printf("트리가 비어 있음!\n");
+		return;
+	}
+
+	// 2. 루트 노드를 스택 1에 푸시
+	push(stack1, root);
+
+	// 3. 반복문 - 스택 1이 비어있지 않은 동안 
+	while (!isEmpty(stack1)) {
+		// 3.1. 스택 1의 top 노드를 pop하여 temp에 저장
+		BSTNode *temp = pop(stack1);
+		push(stack2, temp);
+
+		// 3.2. temp의 left 자식 노드가 NULL이 아니면 스택 1에 푸시
+		if (temp->left !=NULL)
+			push(stack1, temp->left);
+
+		// 3.3. temp의 right 자식 노드가 NULL이 아니면 스택 1에 푸시
+		if (temp->right !=NULL)
+			push(stack1, temp->right);
+	}
+	
+	// 4. 반복문 - 스택 2가 비어있지 않은 동안 
+	while (!isEmpty(stack2)) {
+		// 4.1. 스택 2의 top 노드를 pop하여 temp에 저장
+		BSTNode *temp = pop(stack2);
+		// 4.2. temp의 item을 출력
+		printf("%d\n", temp->item);
+	}
+
+	// 5. 뒤처리 - 스택 1, 스택 2 해제
+	free(stack1);
+	free(stack2);
 }
 
 /* Given a binary search tree and a key, this function
    deletes the key and returns the new root. Make recursive function. */
-BSTNode* removeNodeFromTree(BSTNode *root, int value)
-{
+BSTNode* removeNodeFromTree(BSTNode *root, int value){
 	/* add your code here */
+
+	if (root == NULL)
+		return root; // 베이스 케이스
+
+	if (value < root->item) {
+		root->left = removeNodeFromTree(root->left, value);
+	}
+	else if (value > root->item) {
+		root->right = removeNodeFromTree(root->right, value);
+	}
+	else {
+		if (root->left == NULL) {
+			BSTNode *temp = root->right;
+			free(root);
+			return temp;
+		}
+		
+		if (root->right == NULL) {
+			BSTNode *temp = root->left;
+			free(root);
+			return temp;
+		}
+
+		BSTNode *temp = root->right;
+
+		while (temp && temp->left != NULL)
+			temp = temp->left;
+		
+		root->item = temp->item;
+		root->right = removeNodeFromTree(root->right, temp->item);
+
+		return root;  // 작업 후 갱신된 root를 반드시 반환
+	}
 }
 ///////////////////////////////////////////////////////////////////////////////
 
