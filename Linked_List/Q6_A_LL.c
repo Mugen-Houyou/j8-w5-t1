@@ -83,30 +83,47 @@ int main(){
 
 ////////////////////////////////////////////////////////////////////////
 int moveMaxToFront(ListNode **ptrHead){
-    // 1. 리스트가 비어있거나 노드가 하나뿐인 경우, 이동할 필요가 없으므로 return 0
+	// 1. 이동할 필요가 없는 경우들은 return 0
+	if (*ptrHead == NULL || (*ptrHead)->next == NULL) 
+		return 0;
 
-    // 2. 최대값 노드를 가리키는 포인터 maxNode를 head로 초기화
-    //    이전 노드를 추적하기 위해 maxPrev는 NULL로 초기화
+	// 2. 포인터 세팅
+    // 2.1. 최대값 노드를 가리키기 위한 maxNode
+	ListNode *maxNode = *ptrHead;
+    // 2.2. 이전 노드를 추적하기 위한 maxPrev
+	ListNode *maxPrev = NULL;
+    // 2.3. 순회용 포인터 curr
+	ListNode *curr = *ptrHead;
+	// 2.4. 이전 노드를 가리키는 포인터 prev
+	ListNode *prev = NULL;
 
-    // 3. 순회용 포인터 cur를 head로, 이전 노드를 가리키는 포인터 prev를 NULL로 초기화
+    // 3. 반복 - cur가 NULL이 아닌 동안
+	while (curr != NULL) {
+		// 3.1. cur->item이 현재 maxNode->item보다 크다?
+		if (curr->item > maxNode->item) {
+			// maxNode를 cur로 갱신 & maxPrev를 prev로 갱신
+			maxNode = curr;
+			maxPrev = prev;
+		}
+		// 3.2. prev를 cur로 이동 & cur를 cur->next로 이동
+		prev = curr;
+		curr = curr->next;
+	}
 
-    // 4. cur가 NULL이 아닐 때까지 순회하면서 다음을 수행:
-
-    //    4.1. cur->item이 현재 maxNode->item보다 큰 경우?
-    //         a. maxNode를 cur로 갱신
-    //         b. maxPrev를 prev로 갱신
-
-    //    4.2. prev를 cur로 이동
-    //         cur를 cur->next로 이동
-
-    // 5. 최대값이 이미 맨 앞이면 (maxPrev == NULL), 이동 없이 return 0
-
-    // 6. 그렇지 않다면?
-    //    6.1. maxPrev->next를 maxNode->next로 설정하여 maxNode를 리스트에서 분리
-    //    6.2. maxNode->next를 *ptrHead로 설정하여 maxNode를 리스트의 앞에 붙임
-    //    6.3. *ptrHead를 maxNode로 갱신
-
-    // 7. 성공했으니 return 1
+    // 4. 최대값이 이미 맨 앞이면 (maxPrev == NULL)? 이동 없이 return 0
+	if (maxPrev == NULL) {
+		return 0;
+	}else{
+    // 5. 그렇지 않다면?
+		// 5.1. maxPrev->next를 maxNode->next로 설정하여 maxNode를 리스트에서 분리
+		maxPrev->next = maxNode->next;
+		// 5.2. maxNode->next를 *ptrHead로 설정하여 maxNode를 리스트의 앞에 붙임
+		maxNode->next = *ptrHead;
+		// 5.3. *ptrHead를 maxNode로 갱신
+		*ptrHead = maxNode;
+	}
+	
+	return 0;
 }
 
 //////////////////////////////////////////////////////////////////////////////////

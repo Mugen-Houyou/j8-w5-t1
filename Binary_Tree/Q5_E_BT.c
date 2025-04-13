@@ -103,9 +103,40 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-void mirrorTree(BTNode *node)
-{
-	/* add your code here */
+void mirrorTree(BTNode *node){
+	/* add your code here 
+    https://medium.com/@jaint8648/mirror-tree-geeksforgeeks-problem-9e43fc7ea34f
+    We can solve this problem by recursively converting each left and right subtree to its mirror and then swapping the children of each node.
+
+    // Function to convert a binary tree into its mirror tree.
+    def mirror_tree(root):
+        if root == None:
+            return
+
+        # We will do a post-order traversal of the binary tree.
+        if root.left != None:
+            mirror_tree(root.left)
+
+        if root.right != None:
+            mirror_tree(root.right)
+
+        # Let's swap the left and right nodes at current level.
+        temp = root.left
+        root.left = root.right
+        root.right = temp
+    */
+
+    if(node == NULL) return; // 베이스 케이스 - 노드가 NULL인 경우
+
+    // Post-order traversal로 재귀
+    if (node->left != NULL)
+        mirrorTree(node->left);
+    if (node->right != NULL)
+        mirrorTree(node->right);    
+    
+    BTNode *temp = node->left; 
+    node->left = node->right; 
+    node->right = temp; 
 }
 
 //////////////////////////////////////////////////////////////////////////////////
