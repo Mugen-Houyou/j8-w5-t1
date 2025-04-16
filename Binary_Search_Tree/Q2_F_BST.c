@@ -85,19 +85,42 @@ int main()
 }
 
 //////////////////////////////////////////////////////////////////////////////////
-
 void inOrderTraversal(BSTNode *root){
-    /* add your code here */
-	
+	/* 문제: Write an iterative C function inOrderTraversal() that prints the in-
+		order traversal of a binary search tree, using a stack.
+		Note that you should only use push() or pop() operations when you add 
+		or remove integers from the stack. 
+		Remember to empty the stack at the end of the function.
+	*/
+	Stack stk;
+	stk.top = NULL; // 초기화는 항상 필수!
+
+    BSTNode* curr = root; // 탐색용 노드
+
+    while (curr != NULL || !isEmpty(&stk)) {
+        while (curr != NULL) {
+            push(&stk, curr);
+            curr = curr->left;
+        }
+		
+        curr = pop(&stk);
+        printf("%d ", curr->item);
+        curr = curr->right;
+    }
+
+    free(&stk);
+}
+
+void inOrderTraversal_rcsv(BSTNode *root){
 	if (root == NULL) // root라는 포인터 변수가 아무것도 가리키고 있지 않은가? (즉, 저장된 주소값이 NULL인가?)
 		return;
-	else
-	{
+	else{
 		inOrderTraversal(root->left);
 		printf("%d ", root->item);
 		inOrderTraversal(root->right);
 	}
 }
+
 
 ///////////////////////////////////////////////////////////////////////////////
 

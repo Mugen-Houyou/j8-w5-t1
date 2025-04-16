@@ -92,8 +92,6 @@ int main()
 //////////////////////////////////////////////////////////////////////////////////
 
 void levelOrderTraversal(BSTNode *root){
-    /* add your code here */
-
 	if (root == NULL) // root라는 포인터 변수가 아무것도 가리키고 있지 않은가? (즉, 저장된 주소값이 NULL인가?)
 		return;
 

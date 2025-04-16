@@ -101,9 +101,35 @@ int main()
 
 /////////////////////////////////////////////////////////////////////////////////
 
-int isStackPairwiseConsecutive(Stack *s)
-{
-  /* add your code here */
+int isStackPairwiseConsecutive(Stack *s){
+	int pairwise = 1;
+	Stack temp_stk;
+
+    // temp_stk 초기화 필수!!
+    temp_stk.ll.head = NULL;
+    temp_stk.ll.tail = NULL;
+    temp_stk.ll.size = 0;
+
+    while (!isEmptyStack(s))
+        push(&temp_stk, pop(s));
+
+	while (!isEmptyStack(&temp_stk)){
+		// printf("asdfg");
+		int first = pop(&temp_stk);
+
+		if (!isEmptyStack(&temp_stk)){
+			int second = pop(&temp_stk);
+			if (abs(first - second) != 1)
+    			pairwise = 0;
+			push(s, first);
+			push(s, second);
+		}else{
+			push(s, first);
+            pairwise = 0; 
+		}
+	}
+
+	return pairwise;
 }
 
 //////////////////////////////////////////////////////////////////////////////////

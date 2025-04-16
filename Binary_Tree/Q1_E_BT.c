@@ -113,10 +113,27 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-int identical(BTNode *tree1, BTNode *tree2)
-
-{
-   /* add your code here */
+int identical(BTNode *tree1, BTNode *tree2){ // 같으면 return 1, 이외에는 전부 return 0
+    /* add your code here */
+    /* Python 예시 (https://velog.io/@wisepine/Leetcode-Same-Tree)
+    def isSameTree(self, p: TreeNode, q: TreeNode) -> bool:
+        if not p and not q:
+            return True
+        if not p or not q:
+            return False
+        if p.val != q.val:
+            return False
+        
+        return self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)
+    */
+    if (tree1==NULL && tree2==NULL)
+        return 1;
+    if (tree1==NULL || tree2==NULL)
+        return 0;
+    if (!(tree1->item == tree2->item) )
+        return 0;
+    
+    return identical(tree1->left,tree2->left) && identical(tree1->right,tree2->right);
 }
 
 /////////////////////////////////////////////////////////////////////////////////

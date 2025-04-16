@@ -109,9 +109,14 @@ int main()
 
 ////////////////////////////////////////////////////////////
 
-void removeUntil(Stack *s, int value)
-{
-/* add your code here */
+void removeUntil(Stack *s, int value){
+	int item;
+	
+	if (s == NULL || s->ll.head == NULL) // if (s == NULL)만 걸어놓으면 스택이 비어있는 상태는 걸리지 않음!!!!
+		return;
+
+	while (s->ll.head != NULL && peek(s) != value)
+		item = pop(s);
 }
 
 //////////////////////////////////////////////////////////////////////////////////
