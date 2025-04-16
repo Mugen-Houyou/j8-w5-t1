@@ -151,6 +151,7 @@ void insertBSTNode(BSTNode **node, int value){
 void push(Stack *stack, BSTNode * node)
 {
 	StackNode *temp;
+	printf("pushed %d\n", node->item);
 
 	temp = malloc(sizeof(StackNode));
 

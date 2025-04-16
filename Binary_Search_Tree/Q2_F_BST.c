@@ -8,6 +8,10 @@ Purpose: Implementing the required functions for Question 2 */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+#define MAX_INPUT_SIZE 1<<20 // 1MB
+#define BUFFER_SIZE 1024
 
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -40,7 +44,32 @@ void removeAll(BSTNode **node);
 
 ///////////////////////////// main() /////////////////////////////////////////////
 
-int main()
+int main(){
+    BSTNode *root = NULL;
+    char inputLine[MAX_INPUT_SIZE];
+	int max_input_numbers = sizeof(inputLine) / sizeof(inputLine[0]);
+
+    printf("정수를 공백으로 구분하여 입력하세요: \n");
+
+    if (fgets(inputLine, sizeof(inputLine), stdin) != NULL) {
+        char *token = strtok(inputLine, " \n"); // strtok로 구분자 처리 ==> delim에 포함된 아무 문자라도 만나면 분리함.
+        while (token != NULL) {
+            int i = atoi(token);
+            insertBSTNode(&root, i);
+            token = strtok(NULL, " \n");
+        }
+    }
+    
+    printf("Binary Search Tree의 in-order traversal 결과: ");
+    inOrderTraversal(root);
+    printf("\n");
+    
+    removeAll(&root);
+    
+    return 0;
+}
+
+int main_old()
 {
 	int c, i;
 	c = 1;
@@ -85,6 +114,7 @@ int main()
 }
 
 //////////////////////////////////////////////////////////////////////////////////
+// 반복 버전
 void inOrderTraversal(BSTNode *root){
 	/* 문제: Write an iterative C function inOrderTraversal() that prints the in-
 		order traversal of a binary search tree, using a stack.
@@ -102,15 +132,14 @@ void inOrderTraversal(BSTNode *root){
             push(&stk, curr);
             curr = curr->left;
         }
-		
+
         curr = pop(&stk);
-        printf("%d ", curr->item);
+        printf("%d\n", curr->item);
         curr = curr->right;
     }
-
-    free(&stk);
 }
 
+// 재귀 버전
 void inOrderTraversal_rcsv(BSTNode *root){
 	if (root == NULL) // root라는 포인터 변수가 아무것도 가리키고 있지 않은가? (즉, 저장된 주소값이 NULL인가?)
 		return;
@@ -149,7 +178,7 @@ void insertBSTNode(BSTNode **node, int value){
 void push(Stack *stack, BSTNode * node)
 {
 	StackNode *temp;
-
+	printf("PUSHED_%d_TO_%p\n", node->item, stack);
 	temp = malloc(sizeof(StackNode));
 
 	if (temp == NULL)
@@ -184,6 +213,8 @@ BSTNode * pop(Stack * s)
 		free(t);
 		t = NULL;
 	}
+
+	printf("POPPED_%d_FROM_%p\n", ptr->item , s);
 
 	return ptr;
 }
